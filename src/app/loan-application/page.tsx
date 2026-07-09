@@ -164,7 +164,7 @@ export default function LoanApplicationPage() {
   // ── Step validation ──
   const validateStep = (s: number): boolean => {
     setGeneralError("");
-    let stepErrors: FormErrors = {};
+    const stepErrors: FormErrors = {};
 
     if (s === 1) {
       const fields: (keyof ApplicationFormData)[] = [
