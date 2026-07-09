@@ -11,6 +11,10 @@ const firebaseConfig = {
 };
 
 export function getFirebaseApp(): FirebaseApp {
+  if (typeof window === "undefined") {
+    throw new Error("Firebase client can only be initialized in the browser.");
+  }
+
   if (getApps().length === 0) {
     return initializeApp(firebaseConfig);
   }
@@ -20,6 +24,10 @@ export function getFirebaseApp(): FirebaseApp {
 let authInstance: Auth | null = null;
 
 export function getFirebaseAuth(): Auth {
+  if (typeof window === "undefined") {
+    throw new Error("Firebase auth can only be initialized in the browser.");
+  }
+
   if (!authInstance) {
     const app = getFirebaseApp();
     authInstance = getAuth(app);
@@ -28,6 +36,3 @@ export function getFirebaseAuth(): Auth {
   }
   return authInstance;
 }
-
-export const app = getFirebaseApp();
-export const auth = getFirebaseAuth();

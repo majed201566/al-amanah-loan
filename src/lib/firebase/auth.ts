@@ -9,7 +9,7 @@ import {
   updateProfile,
   type User,
 } from "firebase/auth";
-import { auth } from "./config";
+import { getFirebaseAuth } from "./config";
 
 // ── Error mapping (Arabic) ──
 function mapFirebaseError(code: string): Error {
@@ -71,7 +71,7 @@ export async function registerWithEmail(
 ): Promise<User> {
   try {
     const userCredential = await createUserWithEmailAndPassword(
-      auth,
+      getFirebaseAuth(),
       email.trim(),
       password
     );
@@ -100,7 +100,7 @@ export async function loginWithEmail(
 ): Promise<User> {
   try {
     const userCredential = await signInWithEmailAndPassword(
-      auth,
+      getFirebaseAuth(),
       email.trim(),
       password
     );
@@ -131,6 +131,7 @@ export async function loginWithEmail(
 
 // ── Resend verification email ──
 export async function resendVerificationEmail(): Promise<void> {
+  const auth = getFirebaseAuth();
   const user = auth.currentUser;
   if (!user) throw new Error("لا يوجد مستخدم مسجل حالياً.");
 
@@ -150,14 +151,14 @@ export async function resendVerificationEmail(): Promise<void> {
 
 // ── Check if current user's email is verified ──
 export function isEmailVerified(): boolean {
-  const user = auth.currentUser;
+  const user = getFirebaseAuth().currentUser;
   return !!user?.emailVerified;
 }
 
 // ── Forgot password: send reset email ──
 export async function sendPasswordReset(email: string): Promise<void> {
   try {
-    await sendPasswordResetEmail(auth, email.trim(), {
+    await sendPasswordResetEmail(getFirebaseAuth(), email.trim(), {
       url: `${window.location.origin}/login`,
       handleCodeInApp: true,
     });
@@ -169,7 +170,7 @@ export async function sendPasswordReset(email: string): Promise<void> {
 // ── Apply verification code from email link ──
 export async function applyVerificationCode(code: string): Promise<void> {
   try {
-    await applyActionCode(auth, code);
+    await applyActionCode(getFirebaseAuth(), code);
   } catch (error: any) {
     throw mapFirebaseError(error.code || "unknown");
   }
@@ -178,7 +179,7 @@ export async function applyVerificationCode(code: string): Promise<void> {
 // ── Logout ──
 export async function logoutUser(): Promise<void> {
   try {
-    await signOut(auth);
+    await signOut(getFirebaseAuth());
   } catch (error: any) {
     throw new Error("حدث خطأ أثناء تسجيل الخروج");
   }
@@ -186,16 +187,17 @@ export async function logoutUser(): Promise<void> {
 
 // ── Auth state observer ──
 export function onAuthChange(callback: (user: User | null) => void) {
-  return onAuthStateChanged(auth, callback);
+  return onAuthStateChanged(getFirebaseAuth(), callback);
 }
 
 // ── Get current user ──
 export function getCurrentUser(): User | null {
-  return auth.currentUser;
+  return getFirebaseAuth().currentUser;
 }
 
 // ── Refresh user (to get updated emailVerified status) ──
 export async function refreshUser(): Promise<void> {
+  const auth = getFirebaseAuth();
   const user = auth.currentUser;
   if (user) await user.reload();
 }

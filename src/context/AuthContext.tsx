@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { type User } from "firebase/auth";
-import { auth } from "@/lib/firebase/config";
+import { getFirebaseAuth } from "@/lib/firebase/config";
 import {
   onAuthChange,
   registerWithEmail,
@@ -41,6 +41,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
     const unsubscribe = onAuthChange((firebaseUser) => {
       setUser(firebaseUser);
       setIsVerified(!!firebaseUser?.emailVerified);
@@ -87,6 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const handleRefresh = useCallback(async (): Promise<void> => {
+    const auth = getFirebaseAuth();
     const current = auth.currentUser;
     if (current) {
       await current.reload();
