@@ -7,11 +7,11 @@ import { ArrowLeft, ShieldCheck, Zap, BadgeCheck } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-navy-900">
-      {/* Background Patterns */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-gold-500/10 to-transparent rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-gold-500/8 to-transparent rounded-full blur-3xl" />
+    <section className="relative py-16 sm:py-20 lg:py-0 lg:min-h-[90vh] lg:flex lg:items-center overflow-hidden bg-navy-900">
+      {/* Background Patterns — hidden on mobile like PageHeader */}
+      <div className="absolute inset-0 hidden sm:block">
+        <div className="absolute top-0 right-0 w-full max-w-[600px] h-[600px] bg-gradient-to-br from-gold-500/10 to-transparent rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-full max-w-[400px] h-[400px] bg-gradient-to-tr from-gold-500/8 to-transparent rounded-full blur-3xl" />
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
@@ -22,11 +22,11 @@ export default function Hero() {
         />
       </div>
 
-      {/* Decorative Lines */}
-      <div className="absolute top-20 left-0 w-32 h-[2px] bg-gradient-to-l from-gold-500/60 to-transparent" />
-      <div className="absolute top-20 left-0 w-[2px] h-32 bg-gradient-to-b from-gold-500/60 to-transparent" />
-      <div className="absolute bottom-20 right-0 w-32 h-[2px] bg-gradient-to-r from-gold-500/60 to-transparent" />
-      <div className="absolute bottom-20 right-0 w-[2px] h-32 bg-gradient-to-t from-gold-500/60 to-transparent" />
+      {/* Decorative Lines — hidden on mobile like PageHeader */}
+      <div className="hidden sm:block absolute top-20 left-0 w-32 h-[2px] bg-gradient-to-l from-gold-500/60 to-transparent" />
+      <div className="hidden sm:block absolute top-20 left-0 w-[2px] h-32 bg-gradient-to-b from-gold-500/60 to-transparent" />
+      <div className="hidden sm:block absolute bottom-20 right-0 w-32 h-[2px] bg-gradient-to-r from-gold-500/60 to-transparent" />
+      <div className="hidden sm:block absolute bottom-20 right-0 w-[2px] h-32 bg-gradient-to-t from-gold-500/60 to-transparent" />
 
       <div className="w-full lg:max-w-7xl lg:mx-auto px-3 sm:px-5 lg:px-8 py-20 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
