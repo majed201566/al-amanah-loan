@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -9,6 +9,13 @@ export const metadata: Metadata = {
   description:
     "حلول تمويلية متميزة تلبي احتياجاتك بأفضل الشروط وأسرع الإجراءات - Premium financing solutions tailored to your needs",
   keywords: "تمويل, قروض, العراق, النجف, قرض شخصي, قرض عقاري, تمويل مشاريع",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({

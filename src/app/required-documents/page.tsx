@@ -19,7 +19,7 @@ export default function RequiredDocumentsPage() {
       />
 
       <Container>
-        <div className="w-full mx-auto px-3 sm:px-5 lg:max-w-4xl lg:px-8">
+        <div className="w-full lg:max-w-4xl lg:mx-auto px-3 sm:px-5 lg:px-8">
           {/* Notice */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}

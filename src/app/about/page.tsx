@@ -194,7 +194,7 @@ export default function AboutPage() {
               رحلتنا عبر السنوات
             </h2>
           </div>
-          <div className="w-full mx-auto px-3 sm:px-5 lg:max-w-3xl lg:px-8">
+          <div className="w-full lg:max-w-3xl lg:mx-auto px-3 sm:px-5 lg:px-8">
             {timeline.map((item, i) => (
               <motion.div
                 key={i}

@@ -297,7 +297,7 @@ export default function LoanApplicationPage() {
       />
 
       <Container>
-        <div className="w-full mx-auto px-3 sm:px-5 lg:max-w-4xl lg:px-8">
+        <div className="w-full lg:max-w-4xl lg:mx-auto px-3 sm:px-5 lg:px-8">
           {/* Step Indicator */}
           <div className="flex items-center justify-center gap-0 mb-10 overflow-x-auto pb-2">
             {steps.map((s, i) => (

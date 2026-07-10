@@ -91,7 +91,7 @@ export default function ProfilePage() {
   return (
     <AuthGuard>
       <div className="min-h-[calc(100vh-5rem)] bg-gradient-to-br from-navy-50 to-cream">
-        <div className="w-full mx-auto px-3 sm:px-5 lg:max-w-4xl lg:px-8 py-8 sm:py-12">
+        <div className="w-full lg:max-w-4xl lg:mx-auto px-3 sm:px-5 lg:px-8 py-8 sm:py-12">
           {/* Back */}
           <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
             <Link

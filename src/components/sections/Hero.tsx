@@ -28,7 +28,7 @@ export default function Hero() {
       <div className="absolute bottom-20 right-0 w-32 h-[2px] bg-gradient-to-r from-gold-500/60 to-transparent" />
       <div className="absolute bottom-20 right-0 w-[2px] h-32 bg-gradient-to-t from-gold-500/60 to-transparent" />
 
-      <div className="w-full mx-auto px-3 sm:px-5 lg:max-w-7xl lg:px-8 py-20 relative z-10">
+      <div className="w-full lg:max-w-7xl lg:mx-auto px-3 sm:px-5 lg:px-8 py-20 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Text */}
           <motion.div

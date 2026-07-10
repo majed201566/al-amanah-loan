@@ -21,7 +21,7 @@ export default function Footer() {
         </svg>
       </div>
 
-      <div className="w-full mx-auto px-3 sm:px-5 lg:max-w-7xl lg:px-8 pb-12">
+      <div className="w-full lg:max-w-7xl lg:mx-auto px-3 sm:px-5 lg:px-8 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div>

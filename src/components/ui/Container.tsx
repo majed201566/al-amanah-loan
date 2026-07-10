@@ -14,7 +14,7 @@ export default function Container({
   return (
     <Tag
       className={cn(
-        "w-full mx-auto px-3 sm:px-5 lg:max-w-7xl lg:px-8 py-12 sm:py-16 lg:py-24",
+        "w-full lg:max-w-7xl lg:mx-auto px-3 sm:px-5 lg:px-8 py-12 sm:py-16 lg:py-24",
         className
       )}
     >

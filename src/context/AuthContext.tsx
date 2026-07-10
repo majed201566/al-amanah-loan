@@ -1,127 +1,54 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-  type ReactNode,
-} from "react";
+import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
 import { type User } from "firebase/auth";
-import { auth } from "@/lib/firebase/config";
-import {
-  onAuthChange,
-  registerWithEmail,
-  loginWithEmail,
-  logoutUser,
-  resendVerificationEmail,
-  sendPasswordReset,
-} from "@/lib/firebase/auth";
+import { getAuthInstance } from "@/lib/firebase/config";
+import { onAuthChange, registerWithEmail, loginWithEmail, logoutUser, resendVerificationEmail, sendPasswordReset } from "@/lib/firebase/auth";
 
 interface AuthState {
-  user: User | null;
-  loading: boolean;
-  isAuthenticated: boolean;
-  isVerified: boolean;
-  register: (email: string, password: string, name: string) => Promise<User>;
-  login: (email: string, password: string) => Promise<User>;
+  user: User | null; loading: boolean; isAuthenticated: boolean; isVerified: boolean; firebaseReady: boolean;
+  register: (e: string, p: string, n: string) => Promise<User>;
+  login: (e: string, p: string) => Promise<User>;
   logout: () => Promise<void>;
   resendVerification: () => Promise<void>;
-  sendPasswordReset: (email: string) => Promise<void>;
+  sendPasswordReset: (e: string) => Promise<void>;
   refresh: () => Promise<void>;
-  setUser: (user: User | null) => void;
+  setUser: (u: User | null) => void;
 }
 
-const AuthContext = createContext<AuthState | undefined>(undefined);
+const C = createContext<AuthState | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isVerified, setIsVerified] = useState(false);
+  const [firebaseReady, setFirebaseReady] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthChange((firebaseUser) => {
-      setUser(firebaseUser);
-      setIsVerified(!!firebaseUser?.emailVerified);
-      setLoading(false);
-    });
-    return () => unsubscribe();
+    const a = getAuthInstance();
+    if (!a) { setLoading(false); setFirebaseReady(false); return; }
+    setFirebaseReady(true);
+    return onAuthChange((u) => { setUser(u); setIsVerified(!!u?.emailVerified); setLoading(false); });
   }, []);
 
-  const handleRegister = useCallback(
-    async (email: string, password: string, name: string): Promise<User> => {
-      const newUser = await registerWithEmail(email, password, name);
-      setUser(newUser);
-      setIsVerified(false);
-      return newUser;
-    },
-    []
-  );
-
-  const handleLogin = useCallback(
-    async (email: string, password: string): Promise<User> => {
-      const loggedInUser = await loginWithEmail(email, password);
-      setUser(loggedInUser);
-      setIsVerified(true);
-      return loggedInUser;
-    },
-    []
-  );
-
-  const handleLogout = useCallback(async (): Promise<void> => {
-    await logoutUser();
-    setUser(null);
-    setIsVerified(false);
-  }, []);
-
-  const handleResendVerification = useCallback(async (): Promise<void> => {
-    await resendVerificationEmail();
-  }, []);
-
-  const handleSendPasswordReset = useCallback(
-    async (email: string): Promise<void> => {
-      await sendPasswordReset(email);
-    },
-    []
-  );
-
-  const handleRefresh = useCallback(async (): Promise<void> => {
-    const current = auth.currentUser;
-    if (current) {
-      await current.reload();
-      setIsVerified(current.emailVerified);
-      setUser({ ...current });
-    }
-  }, []);
+  const hReg = useCallback(async (e: string, p: string, n: string) => { const u = await registerWithEmail(e, p, n); setUser(u); setIsVerified(false); return u; }, []);
+  const hLog = useCallback(async (e: string, p: string) => { const u = await loginWithEmail(e, p); setUser(u); setIsVerified(true); return u; }, []);
+  const hOut = useCallback(async () => { await logoutUser(); setUser(null); setIsVerified(false); }, []);
+  const hVer = useCallback(async () => { await resendVerificationEmail(); }, []);
+  const hRes = useCallback(async (e: string) => { await sendPasswordReset(e); }, []);
+  const hRef = useCallback(async () => { const a = getAuthInstance(); if (!a?.currentUser) return; await a.currentUser.reload(); setIsVerified(a.currentUser.emailVerified); setUser(Object.assign({}, a.currentUser)); }, []);
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        loading,
-        isAuthenticated: !!user,
-        isVerified,
-        register: handleRegister,
-        login: handleLogin,
-        logout: handleLogout,
-        resendVerification: handleResendVerification,
-        sendPasswordReset: handleSendPasswordReset,
-        refresh: handleRefresh,
-        setUser,
-      }}
-    >
+    <C.Provider value={{
+      user, loading, isAuthenticated: !!user, isVerified, firebaseReady,
+      register: hReg, login: hLog, logout: hOut,
+      resendVerification: hVer, sendPasswordReset: hRes,
+      refresh: hRef, setUser
+    }}>
       {children}
-    </AuthContext.Provider>
+    </C.Provider>
   );
 }
 
-export function useAuth(): AuthState {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-}
-
-export default AuthContext;
+export function useAuth(): AuthState { const c = useContext(C); if (!c) throw new Error("useAuth must be used within AuthProvider"); return c; }
+export default C;

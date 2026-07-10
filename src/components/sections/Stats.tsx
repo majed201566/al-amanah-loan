@@ -20,7 +20,7 @@ export default function Stats() {
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-gold-500/5 rounded-full blur-3xl" />
       </div>
 
-      <div className="w-full mx-auto px-3 sm:px-5 lg:max-w-7xl lg:px-8 relative z-10">
+      <div className="w-full lg:max-w-7xl lg:mx-auto px-3 sm:px-5 lg:px-8 relative z-10">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, i) => {
             const Icon = iconMap[stat.icon] || Award;

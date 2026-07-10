@@ -198,7 +198,7 @@ export default function AdminDashboardPage() {
 
       {/* ── Main ── */}
       <div className="flex-1 flex flex-col min-h-screen">
-        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-navy-100 px-3 sm:px-5 lg:px-8 py-3">
+        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-navy-100 px-3 sm:px-5 lg:px-8 py-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <button className="lg:hidden p-2 rounded-lg hover:bg-navy-50" onClick={() => setSidebarOpen(true)}><Menu className="w-5 h-5" /></button>
@@ -216,7 +216,7 @@ export default function AdminDashboardPage() {
           </div>
         </header>
 
-        <div className="flex-1 p-3 sm:p-5 lg:p-8 space-y-6 overflow-y-auto">
+        <div className="flex-1 p-2 sm:p-5 lg:p-8 space-y-6 overflow-y-auto">
           <AnimatePresence>
             {error && <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}><Alert type="error" message={error} onClose={() => setError("")} /></motion.div>}
             {successMsg && <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}><Alert type="success" message={successMsg} onClose={() => setSuccessMsg("")} /></motion.div>}

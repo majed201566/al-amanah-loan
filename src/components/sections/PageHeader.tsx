@@ -30,7 +30,7 @@ export default function PageHeader({
         }}
       />
 
-      <div className="w-full mx-auto px-3 sm:px-5 lg:max-w-7xl lg:px-8 relative z-10 text-center">
+      <div className="w-full lg:max-w-7xl lg:mx-auto px-3 sm:px-5 lg:px-8 relative z-10 text-center">
         {breadcrumb && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
