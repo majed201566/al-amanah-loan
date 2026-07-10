@@ -1,7 +1,9 @@
 import {
   createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut,
   sendEmailVerification, sendPasswordResetEmail, applyActionCode,
-  onAuthStateChanged, updateProfile, type User, type Auth,
+  onAuthStateChanged, updateProfile,
+  signInWithPopup, GoogleAuthProvider,
+  type User, type Auth,
 } from "firebase/auth";
 import { getAuthInstance } from "./config";
 
@@ -26,6 +28,10 @@ function mapFirebaseError(code: string): Error {
     "auth/expired-action-code": "انتهت صلاحية الرمز. اطلب رمزاً جديداً.",
     "auth/operation-not-allowed": "المصادقة غير مفعلة في Firebase.",
     "auth/user-disabled": "الحساب معطل. تواصل مع الدعم.",
+    "auth/popup-closed-by-user": "تم إغلاق نافذة تسجيل الدخول. حاول مرة أخرى.",
+    "auth/cancelled-popup-request": "تم إلغاء تسجيل الدخول.",
+    "auth/popup-blocked": "النافذة المنبثقة محظورة. يرجى السماح بها للمتابعة.",
+    "auth/account-exists-with-different-credential": "يوجد حساب مسجل بنفس البريد الإلكتروني بطريقة أخرى.",
   };
   return new Error(map[code] || `خطأ غير متوقع (${code})`);
 }
@@ -41,6 +47,22 @@ export function validatePassword(pw: string): string | null {
   if (pw.length < 6) return "كلمة المرور 6 أحرف على الأقل";
   return null;
 }
+
+// ─── GOOGLE SIGN-IN (primary login method) ───
+
+export async function loginWithGoogle(): Promise<User> {
+  try {
+    const a = requireAuth();
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: "select_account" });
+    const result = await signInWithPopup(a, provider);
+    return result.user;
+  } catch (e: any) {
+    throw mapFirebaseError(e.code || "unknown");
+  }
+}
+
+// ─── EMAIL/PASSWORD (kept for backward compatibility) ───
 
 export async function registerWithEmail(email: string, password: string, displayName: string): Promise<User> {
   try {

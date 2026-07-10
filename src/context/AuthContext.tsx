@@ -3,12 +3,16 @@
 import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
 import { type User } from "firebase/auth";
 import { getAuthInstance } from "@/lib/firebase/config";
-import { onAuthChange, registerWithEmail, loginWithEmail, logoutUser, resendVerificationEmail, sendPasswordReset } from "@/lib/firebase/auth";
+import {
+  onAuthChange, registerWithEmail, loginWithEmail, loginWithGoogle,
+  logoutUser, resendVerificationEmail, sendPasswordReset,
+} from "@/lib/firebase/auth";
 
 interface AuthState {
   user: User | null; loading: boolean; isAuthenticated: boolean; isVerified: boolean; firebaseReady: boolean;
   register: (e: string, p: string, n: string) => Promise<User>;
   login: (e: string, p: string) => Promise<User>;
+  loginWithGoogle: () => Promise<User>;
   logout: () => Promise<void>;
   resendVerification: () => Promise<void>;
   sendPasswordReset: (e: string) => Promise<void>;
@@ -33,6 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const hReg = useCallback(async (e: string, p: string, n: string) => { const u = await registerWithEmail(e, p, n); setUser(u); setIsVerified(false); return u; }, []);
   const hLog = useCallback(async (e: string, p: string) => { const u = await loginWithEmail(e, p); setUser(u); setIsVerified(true); return u; }, []);
+  const hGoogle = useCallback(async () => { const u = await loginWithGoogle(); setUser(u); setIsVerified(true); return u; }, []);
   const hOut = useCallback(async () => { await logoutUser(); setUser(null); setIsVerified(false); }, []);
   const hVer = useCallback(async () => { await resendVerificationEmail(); }, []);
   const hRes = useCallback(async (e: string) => { await sendPasswordReset(e); }, []);
@@ -41,7 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return (
     <C.Provider value={{
       user, loading, isAuthenticated: !!user, isVerified, firebaseReady,
-      register: hReg, login: hLog, logout: hOut,
+      register: hReg, login: hLog, loginWithGoogle: hGoogle, logout: hOut,
       resendVerification: hVer, sendPasswordReset: hRes,
       refresh: hRef, setUser
     }}>
