@@ -54,9 +54,9 @@ export default function Hero() {
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6"
             >
               تمويل{" "}
-              <span className="text-gradient-gold">سريع وموثوق</span>
+              <span className="text-gold-400">سريع وموثوق</span>
               {" "}لتحقيق{" "}
-              <span className="text-gradient-gold">أحلامك</span>
+              <span className="text-gold-400">أحلامك</span>
             </motion.h1>
 
             <motion.p

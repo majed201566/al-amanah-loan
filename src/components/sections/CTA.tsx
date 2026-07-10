@@ -10,8 +10,8 @@ export default function CTA() {
     <section className="relative py-20 sm:py-28 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-navy-800 to-navy-950" />
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-500/8 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gold-500/5 rounded-full blur-3xl" />
+      <div className="absolute top-0 right-0 w-full max-w-[500px] h-[500px] bg-gold-500/8 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-full max-w-[400px] h-[400px] bg-gold-500/5 rounded-full blur-3xl" />
 
       {/* Pattern */}
       <div
@@ -32,7 +32,7 @@ export default function CTA() {
       >
         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
           هل أنت مستعد لتحقيق{" "}
-          <span className="text-gradient-gold">حلمك</span>؟
+          <span className="text-gold-400">حلمك</span>؟
         </h2>
         <p className="text-navy-200 text-lg mb-10 max-w-xl mx-auto">
           لا تتردد، فريقنا مستعد لمساعدتك. قدم طلبك الآن واحصل على الموافقة خلال
