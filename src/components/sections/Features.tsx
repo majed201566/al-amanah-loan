@@ -16,9 +16,9 @@ const iconMap: Record<string, React.ElementType> = {
 
 export default function Features() {
   return (
-    <Container className="relative">
+    <Container className="relative overflow-hidden">
       {/* Decorative bg */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gold-100/50 rounded-full blur-3xl -z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vmin] h-[100vmin] max-w-[800px] max-h-[800px] bg-gold-100/50 rounded-full blur-3xl -z-10" />
 
       <SectionHeading
         label="لماذا الأمانة؟"
